@@ -6,6 +6,7 @@ class Sentence:
 	pos_nominals = ()
 	pos_words = ()
 	stem_words = ()
+	label= None
 	"""
 	Constructor for the sentence datatype
 
@@ -16,11 +17,12 @@ class Sentence:
         pos_nominals: POS tags of nominals
         pos_words: POS tags of words between nominals
         stem_words: Stems of words between nominals
+        label: Target label for the sentence
 
 	Returns:
 	    Returns a Sentence obj
 	"""
-	def __init__(self,nominals, sentence, nominal_distance,pos_nominals,pos_words,stem_words):
+	def __init__(self,nominals, sentence, nominal_distance,pos_nominals,pos_words,stem_words,label):
 		self.e1=nominals[0]
 		self.e2=nominals[1]
 		self.sentence = sentence
@@ -28,6 +30,7 @@ class Sentence:
 		self.pos_nominals = pos_nominals
 		self.pos_words = pos_words
 		self.stem_words = stem_words
+		self.label
 	
 	def get_nominals(self):
 		return (self.e1,self.e2)
