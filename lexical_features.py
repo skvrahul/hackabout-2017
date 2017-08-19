@@ -2,7 +2,7 @@ from nltk.tag import pos_tag
 from nltk.stem.snowball import SnowballStemmer
 from nltk.tokenize import word_tokenize
 import re
-from sentence import *
+from sentence import *  # For the Sentence object
 import _pickle as pickle
 
 """ Returns an integer from 0-9 for the various classes
@@ -43,33 +43,44 @@ def getClass(label):
 
 
 def readData():
-    file = open("data/TRAIN_FILE.TXT", "r")
-    data = file.readlines()
-    labels = []  # labels will hold all the relations per sentence
-    for i in range(1, len(data), 4):
-        if 'Other' in data[i]:
-            labels.append('Other')
-        else:
-            labels.append(re.findall(r'(.*?)\(', data[i])[0])
-    class_labels = []  # Holds the labels after conversion to integers
 
-    for label in labels:
-        class_labels.append(getClass(label))
-
-    sentences = []
-    for line in data:
-        if line[0].isdigit():
-            sentences.append(line)
     nominals = []
     words_between_nominals = []
     word_prefixes = []
     pos_nominals = []
     pos_words = []
     stem_words = []
+    labels = []  # labels will hold all the relations per sentence, such as 'Instrument-Agency'
+    class_labels = []  # Holds the labels after conversion to integers, see the getClass() method
+    sentences = []  # Holds all the sentences from the text files, but the sentences are not cleaned
+    sent2 = []  # Sent2 holds all the cleaned sentences in double quotes
+    Sent = []  # An array of Sentence objects, from sentency.py
+
+    # Reads the file off training data
+    file = open("data/TRAIN_FILE.TXT", "r")
+    data = file.readlines()
+
+    # Loop for extracting relations and storing in labels[]
+    for i in range(1, len(data), 4):
+        if 'Other' in data[i]:
+            labels.append('Other')
+        else:
+            labels.append(re.findall(r'(.*?)\(', data[i])[0])
+
+    # Loop for converting relations to integer labels and storing in class_labels[]
+    for label in labels:
+        class_labels.append(getClass(label))
+
+    # Loop for collecting sentences and storing in sentences[]
+    for line in data:
+        if line[0].isdigit():
+            sentences.append(line)
+
     stemmer = SnowballStemmer("english")
+    # Extracting required features from each sentence in sentences[]
     for sent in sentences:
-        e1 = re.findall(r'<e1>(.*?)<\/e1>', sent)[0]
-        e2 = re.findall(r'<e2>(.*?)<\/e2>', sent)[0]
+        e1 = re.findall(r'<e1>(.*?)<\/e1>', sent)[0]  # Extracts tag <e1>
+        e2 = re.findall(r'<e2>(.*?)<\/e2>', sent)[0]  # Extracts tag <e2>
         words = re.search(r'</e1>(.*?)<e2>', sent).group(1).split()
         nominal_words = re.search(r'</e1>(.*?)<e2>', sent).group(1)
         nominals.append((e1, e2))
@@ -81,18 +92,28 @@ def readData():
         stem_words.append([stemmer.stem(i) for i in nominal_words_toks])
         words_between_nominals.append((len(words)))
         prefixes = []
+
         for i in range(1, len(words) - 1):
             prefixes.append(words[i][:5])
+
+        # Not sure if word prefixes are necessary, kept it anyway
         word_prefixes.append(prefixes)
+
+    # Just to check whether the number of nominals equals sentences
     print(len(sentences), len(nominals))
-    sent2 = []  # Sent2 holds all the clean sentences in double quotes
+
+    # Populates sent2 with the 'cleaned up' sentence
     for sent in sentences:
         sent2.append(re.findall(r'(\".*\")', sent)[0])
-    sent = []
+
+    # Populates sent=[] with required Sentence objects
     for i in range(len(nominals)):
-        sent.append(Sentence(nominals[i], sent2[i].split(),
+        Sent.append(Sentence(nominals[i], sent2[i].split(),
                              words_between_nominals[i],
-                             pos_nominals[i], pos_words[i], stem_words[i],class_labels[i]))
+                             pos_nominals[i], pos_words[i], stem_words[i],
+                             class_labels[i]))
+
+    # Pickles file.
     pickle.dump(sent, open('data/cleaned.pkl', 'wb'), protocol=2)
 
 
