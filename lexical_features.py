@@ -56,6 +56,7 @@ def readData():
     sentences = []  # Holds all the sentences from the text files, but the sentences are not cleaned
     sent2 = []  # Sent2 holds all the cleaned sentences in double quotes
     Sent = []  # An array of Sentence objects, from sentency.py
+    indices = []
 
     # Reads the file off training data
     file = open("data/TRAIN_FILE.TXT", "r")
@@ -92,6 +93,9 @@ def readData():
         pos_words.append(([i[1] for i in pos_tag(nominal_words_toks)]))
         stem_words.append([stemmer.stem(i) for i in nominal_words_toks])
         words_between_nominals.append((len(words)))
+        a=sent[:sent.find('<')].count(' ')
+        b=sent[:sent.rfind('>')].count(' ')
+        indices.append((a,b))
         prefixes = []
 
         for i in range(1, len(words) - 1):
