@@ -47,9 +47,10 @@ def readData():
     nominals = []
     words_between_nominals = []
     word_prefixes = []
-    pos_nominals = []
-    pos_words = []
-    stem_words = []
+    pos_nominals = [] #Stores POS of nominals
+    pos_words = [] #Stores POS of words between nominals
+    stem_words = [] #Stores stems of words between nominals
+    pos_sent = [] #Stores POS of all words in sentence
     labels = []  # labels will hold all the relations per sentence, such as 'Instrument-Agency'
     class_labels = []  # Holds the labels after conversion to integers, see the getClass() method
     sentences = []  # Holds all the sentences from the text files, but the sentences are not cleaned
@@ -104,13 +105,16 @@ def readData():
 
     # Populates sent2 with the 'cleaned up' sentence
     for sent in sentences:
-        sent2.append(re.findall(r'(\".*\")', sent)[0])
+        sent2.append(re.search(r'(\"(.*?)\")', sent).group(2))
+
+    for sent in sent2:
+        pos_sent.append([i[1] for i in pos_tag(word_tokenize(sent))])
 
     # Populates sent=[] with required Sentence objects
     for i in range(len(nominals)):
         Sent.append(Sentence(nominals[i], sent2[i].split(),
                              words_between_nominals[i],
-                             pos_nominals[i], pos_words[i], stem_words[i],
+                             pos_nominals[i], pos_sent[i], stem_words[i],
                              class_labels[i]))
 
     # Pickles file.

@@ -18,14 +18,14 @@ class Sentence:
 	    sentence: Array of strings representing the entire sentence
 	    nominal_distance: Number of words between the nominals 
         pos_nominals: POS tags of nominals
-        pos_words: POS tags of words between nominals
+        pos_words: POS tags of all words in the sentence
         stem_words: Stems of words between nominals
         label: Target label for the sentence
 		indices Indexes of e1 and e2 in the sentence - Tuple(index_e1, index_e2)
 	Returns:
 	    Returns a Sentence obj
 	"""
-	def __init__(self, nominals, sentence, nominal_distance, pos_nominals, pos_words, stem_words, label, indices):
+	def __init__(self, nominals, sentence, nominal_distance, pos_nominals, pos_words, stem_words, label, indices=None):
 		self.e1=nominals[0]
 		self.e2=nominals[1]
 		self.sentence = sentence
@@ -45,4 +45,4 @@ class Sentence:
 			feature_dict.update({'nom_pos:'+pos_nominal for pos_nominal in pos_nominals})
 			feature_dict.update({'words_pos:'+pos_word for pos_word in pos_words})
 			feature_dict.update({'words_stem:'+stem_word for stem_word in stem_words})
-			print feature_set
+			return 
