@@ -34,3 +34,12 @@ class Sentence:
 	
 	def get_nominals(self):
 		return (self.e1,self.e2)
+
+	def create_feature_dict(self):
+			feature_dict = {'e1':self.e1, 'e2':self.e2}
+			feature_dict.update({'words:'+sentence_word:True for sentence_word in self.sentence})
+			feature_dict.update({'nom_dist':nominal_distance})
+			feature_dict.update({'nom_pos:'+pos_nominal for pos_nominal in pos_nominals})
+			feature_dict.update({'words_pos:'+pos_word for pos_word in pos_words})
+			feature_dict.update({'words_stem:'+stem_word for stem_word in stem_words})
+			print feature_set
