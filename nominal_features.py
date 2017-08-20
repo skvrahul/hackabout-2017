@@ -50,6 +50,12 @@ def lowest_common_hypernym(words):
         lch.append(arg_1.lowest_common_hypernyms(arg_2)[0].name().split('.')[0])
     return lch
 
+
+"""
+    jaccard_common returns two values. First value is a list containing the four most
+    common objects of each nominal. Second value is the Jaccard distance of the two
+    nominal sets.
+"""
 def jaccard_common(nominals):
     sents = brown.sents()
     sents_no_punct = []
