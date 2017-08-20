@@ -57,7 +57,8 @@ def readData():
     sentences = []  # Holds all the sentences from the text files, but the sentences are not cleaned
     sent2 = []  # Sent2 holds all the cleaned sentences in double quotes
     Sent = []  # An array of Sentence objects, from sentency.py
-    indices = []
+    indices = [] 
+    pos_between_nominals = [] #Stores string of starting POS tags of words between nominals
 
     # Reads the file off training data
     file = open("data/TRAIN_FILE.TXT", "r")
@@ -84,11 +85,13 @@ def readData():
     for sent in sentences:
         e1 = re.findall(r'<e1>(.*?)<\/e1>', sent)[0]  # Extracts tag <e1>
         e2 = re.findall(r'<e2>(.*?)<\/e2>', sent)[0]  # Extracts tag <e2>
-        words = re.search(r'</e1>(.*?)<e2>', sent).group(1).split()
+        between_nominals = re.search(r'</e1>(.*?)<e2>', sent).group(1)
+        words = between_nominals.split()
         nominal_words = re.search(r'</e1>(.*?)<e2>', sent).group(1)
         nominals.append((e1, e2))
         e1_toks = word_tokenize(e1)
         e2_toks = word_tokenize(e2)
+        pos_between_nominals.append(''.join([i[1][0] for i in pos_tag(word_tokenize(between_nominals))]))
         pos_nominals.append((pos_tag(e1_toks)[0][1], pos_tag(e2_toks)[0][1]))
         nominal_words_toks = word_tokenize(nominal_words)
         pos_words.append(([i[1] for i in pos_tag(nominal_words_toks)]))
@@ -110,8 +113,7 @@ def readData():
 
     # Populates sent2 with the 'cleaned up' sentence
     for sent in sentences:
-        sent2.append(
-            re.sub(r'<.*?>', '', re.search(r'(\"(.*?)\")', sent).group(2)))
+        sent2.append(re.sub(r'<.*?>','',re.search(r'(\"(.*?)\")', sent).group(2)))
 
     for sent in sent2:
         pos_sent.append([i[1] for i in pos_tag(word_tokenize(sent))])
