@@ -4,6 +4,7 @@ from nltk.tokenize import word_tokenize
 import re
 from sentence import *  # For the Sentence object
 import _pickle as pickle
+import numpy as np
 
 """ Returns an integer from 0-9 for the various classes
                Other : 0
@@ -41,7 +42,7 @@ def getClass(label):
     elif label == 'Instrument-Agency':
         return 9
 
-
+dict_words = {} # Dictionary of all words with 0 as their value
 def readData():
 
     nominals = []
@@ -56,7 +57,8 @@ def readData():
     sentences = []  # Holds all the sentences from the text files, but the sentences are not cleaned
     sent2 = []  # Sent2 holds all the cleaned sentences in double quotes
     Sent = []  # An array of Sentence objects, from sentency.py
-    indices = []
+    indices = [] 
+    complete_words = set() # Set with all the words in the entire training set
 
     # Reads the file off training data
     file = open("data/TRAIN_FILE.TXT", "r")
@@ -113,6 +115,9 @@ def readData():
 
     for sent in sent2:
         pos_sent.append([i[1] for i in pos_tag(word_tokenize(sent))])
+        complete_words.update(re.sub("[^\w]", " ",  sent).split())
+
+    dict_words = dict(zip(complete_words,np.array(len(complete_words, dtype = int))))
 
     # Populates sent=[] with required Sentence objects
     for i in range(len(nominals)):
@@ -124,5 +129,15 @@ def readData():
     # Pickles file.
     pickle.dump(sent, open('data/cleaned.pkl', 'wb'), protocol=2)
 
+#accepts a sentence, returns a dictionary with 1 as value for the words encountered in training data
+def markWords(sent){
+	che = dict_words.copy()
+	a = re.sub("[^\w]", " ",  sent).split()
+	for word in a:
+		if word in che.keys():
+			che[word]=1
+
+	return che
+}
 
 readData()
