@@ -45,11 +45,10 @@ def hypernym(words):
 def lowest_common_hypernym(words):
     lch = []
     for word in words:
-        arg_1 = wn.synsets(word[0][0],pos=getattr(wn,pos[word[0][1][:2]]))[0]
-        arg_2 = wn.synsets(word[1][0],pos=getattr(wn,pos[word[1][1][:2]]))[0]
+        arg_1 = wn.synsets(words[0][0],pos=getattr(wn,pos[words[0][1][:2]]))[0]
+        arg_2 = wn.synsets(words[1][0],pos=getattr(wn,pos[words[1][1][:2]]))[0]
         lch.append(arg_1.lowest_common_hypernyms(arg_2)[0].name().split('.')[0])
     return lch
-
 
 """
     jaccard_common returns two values. First value is a list containing the four most
