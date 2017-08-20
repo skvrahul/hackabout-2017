@@ -42,25 +42,26 @@ def getClass(label):
     elif label == 'Instrument-Agency':
         return 9
 
+
 def readData():
 
     nominals = []
     words_between_nominals = []
     word_prefixes = []
-    pos_nominals = [] #Stores POS of nominals
-    pos_words = [] #Stores POS of words between nominals
-    stem_words = [] #Stores stems of words between nominals
-    pos_sent = [] #Stores POS of all words in sentence
+    pos_nominals = []  # Stores POS of nominals
+    pos_words = []  # Stores POS of words between nominals
+    stem_words = []  # Stores stems of words between nominals
+    pos_sent = []  # Stores POS of all words in sentence
     labels = []  # labels will hold all the relations per sentence, such as 'Instrument-Agency'
     class_labels = []  # Holds the labels after conversion to integers, see the getClass() method
     sentences = []  # Holds all the sentences from the text files, but the sentences are not cleaned
     sent2 = []  # Sent2 holds all the cleaned sentences in double quotes
     Sent = []  # An array of Sentence objects, from sentency.py
-    indices = [] 
+    indices = []
 
     # Reads the file off training data
     file = open("data/TRAIN_FILE.TXT", "r")
-    data = file.readlines()[:2]
+    data = file.readlines()
 
     # Loop for extracting relations and storing in labels[]
     for i in range(1, len(data), 4):
@@ -93,9 +94,9 @@ def readData():
         pos_words.append(([i[1] for i in pos_tag(nominal_words_toks)]))
         stem_words.append([stemmer.stem(i) for i in nominal_words_toks])
         words_between_nominals.append((len(words)))
-        a=sent[:sent.find('<')].count(' ')
-        b=sent[:sent.rfind('>')].count(' ')
-        indices.append((a,b))
+        a = sent[:sent.find('<')].count(' ')
+        b = sent[:sent.rfind('>')].count(' ')
+        indices.append((a, b))
         prefixes = []
 
         for i in range(1, len(words) - 1):
@@ -109,7 +110,8 @@ def readData():
 
     # Populates sent2 with the 'cleaned up' sentence
     for sent in sentences:
-        sent2.append(re.sub(r'<.*?>','',re.search(r'(\"(.*?)\")', sent).group(2)))
+        sent2.append(
+            re.sub(r'<.*?>', '', re.search(r'(\"(.*?)\")', sent).group(2)))
 
     for sent in sent2:
         pos_sent.append([i[1] for i in pos_tag(word_tokenize(sent))])
@@ -123,5 +125,6 @@ def readData():
 
     # Pickles file.
     pickle.dump(Sent, open('data/cleaned.pkl', 'wb'), protocol=2)
+
 
 readData()

@@ -15,42 +15,26 @@ Sent = pickle.load(open("data/cleaned.pkl", "rb"))
 # print(Sent[0].create_feature_dict())
 
 # Target
-Y = np.empty([8000, 1])
+Y = np.empty((0, 100))
 
 # Features
-X = np.empty([8000, 4])
 
 # Order of features: (nominal_distance, pos_nominal, stem_word)
 
 vectorizer = CountVectorizer()
 corpus = []
 pos_corpus = []
-for s in sent:
+for s in Sent:
+    np.append()
     corpus.append(s.sentence)
     pos_corpus.append(" ".join(str(x) for x in s.pos_words))
 
 sentences = vectorizer.fit_transform(corpus)
-vec_sentences = sentences.toarray() # Vectors of all the sentences in the corpus
+vec_sentences = sentences.toarray()  # Vectors of all the sentences in the corpus
 
 pos_words = vectorizer.fit_transform(pos_corpus)
-vec_pos_words = pos_words.toarray() # Vectors of all pos tags in corpus
+vec_pos_words = pos_words.toarray()  # Vectors of all pos tags in corpus
 
-
-for s in Sent[]:
-    np.append(Y, s.label)
-    tmp_list = np.empty([4], dtype=object)
-    tmp_list[0] = np.asarray(s.nominal_distance)
-    # print(np.asarray(s.nominal_distance))
-    tmp_list[1] = np.asarray(s.pos_nominals)
-    # print(np.asarray(s.pos_nominals))
-    tmp_list[2] = np.asarray(s.stem_words)
-    # print(s.stem_words)
-    tmp_list[3] = np.asarray(s.pos_words)
-    # print(s.pos_words)
-    np.append(X, tmp_list)
-    # print(tmp_list)
-
-print(X)
 
 '''
 clf = SVC(kernel='linear', C=1.5)
@@ -59,13 +43,12 @@ scores = cross_val_score(clf, X, Y, cv=cv)
 print(scores)
 '''
 
-#clf = SVC()
-#clf.fit(X, Y)
+clf = SVC()
+clf.fit(X, Y)
 
-'''
-print(lowest_common_hypernym([(Sent[0].get_nominals()[0],
-                               Sent[0].pos_nominals[0]),
-                              (Sent[0].get_nominals()[1],
-                               Sent[0].pos_nominals[1])]))
-print(Sent[0].get_nominals()[0], Sent[0].pos_nominals[0])
-'''
+
+print(lowest_common_hypernym([(Sent[1].get_nominals()[1],
+                               Sent[1].pos_nominals[1]),
+                              (Sent[1].get_nominals()[1],
+                               Sent[1].pos_nominals[1])]))
+print(Sent[1].get_nominals()[1], Sent[1].pos_nominals[1])
