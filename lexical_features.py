@@ -130,7 +130,7 @@ def readData():
     pickle.dump(sent, open('data/cleaned.pkl', 'wb'), protocol=2)
 
 #accepts a sentence, returns a dictionary with 1 as value for the words encountered in training data
-def markWords(sent){
+def markWords(sent):
 	che = dict_words.copy()
 	a = re.sub("[^\w]", " ",  sent).split()
 	for word in a:
@@ -138,6 +138,5 @@ def markWords(sent){
 			che[word]=1
 
 	return che
-}
 
 readData()
