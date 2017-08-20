@@ -26,8 +26,6 @@ class Sentence:
 		self.label = label
 		self.index_e1 = indices[0]
 		self.index_e2 = indices[1]
-		self.sentence[self.index_e1] = self.e1
-		self.sentence[self.index_e2] = self.e2
 	
 	def get_nominals(self):
 		return (self.e1,self.e2)
