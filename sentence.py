@@ -24,8 +24,8 @@ class Sentence:
 		self.pos_words = pos_words
 		self.stem_words = stem_words
 		self.label = label
-		self.index_e1 = indices[0]
-		self.index_e2 = indices[1]
+		# self.index_e1 = indices[0]
+		# self.index_e2 = indices[1]
 	
 	def get_nominals(self):
 		return (self.e1,self.e2)
