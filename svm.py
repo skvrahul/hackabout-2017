@@ -8,6 +8,7 @@ from sklearn.model_selection import ShuffleSplit
 from nominal_features import *
 from sklearn.feature_extraction import DictVectorizer
 from sentence import *
+from sklearn.feature_extraction.text import CountVectorizer
 
 
 Sent = pickle.load(open("data/cleaned.pkl", "rb"))
@@ -20,6 +21,19 @@ Y = np.empty([8000, 1])
 X = np.empty([8000, 4])
 
 # Order of features: (nominal_distance, pos_nominal, stem_word)
+
+vectorizer = CountVectorizer()
+corpus = []
+pos_corpus = []
+for s in sent:
+    corpus.append(s.sentence)
+    pos_corpus.append(" ".join(str(x) for x in s.pos_words))
+
+sentences = vectorizer.fit_transform(corpus)
+vec_sentences = sentences.toarray() # Vectors of all the sentences in the corpus
+
+pos_words = vectorizer.fit_transform(pos_corpus)
+vec_pos_words = pos_words.toarray() # Vectors of all pos tags in corpus
 
 
 for s in Sent[]:
