@@ -44,7 +44,3 @@ def lowest_common_hypernym(words):
         arg_2 = wn.synsets(word[1][0],pos=getattr(wn,pos[word[1][1][:2]]))[0]
         lch.append(arg_1.lowest_common_hypernyms(arg_2)[0].name().split('.')[0])
     return lch
-
-print (lowest_common_hypernym([[('green','NN'),('red','NN')],[("yellow",'NN'),('red','NN')]]))
-
-
