@@ -123,7 +123,7 @@ def readData():
         Sent.append(Sentence(nominals[i], sent2[i],
                              words_between_nominals[i],
                              pos_nominals[i], pos_sent[i], stem_words[i],
-                             class_labels[i]))
+                             class_labels[i],pos_between_nominals[i]))
 
     # Pickles file.
     pickle.dump(Sent, open('data/cleaned.pkl', 'wb'), protocol=2)
