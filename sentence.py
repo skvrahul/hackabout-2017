@@ -37,7 +37,6 @@ class Sentence:
 		feature_dict.update({'words_stem:'+stem_word:True for stem_word in self.stem_words})
 		return feature_dict
 
-	def sentence_dict(self)
-		word_dict = {'words:'+word:True for word in sentence} 		
+	def sentence_dict(self):
+		word_dict = {'words:'+word:True for word in self.sentence} 		
 		return word_dict
-	
