@@ -57,7 +57,7 @@ def readData():
     sent2 = []  # Sent2 holds all the cleaned sentences in double quotes
     Sent = []  # An array of Sentence objects, from sentency.py
     indices = [] 
-    
+
     # Reads the file off training data
     file = open("data/TRAIN_FILE.TXT", "r")
     data = file.readlines()[:2]
@@ -116,7 +116,7 @@ def readData():
 
     # Populates sent=[] with required Sentence objects
     for i in range(len(nominals)):
-        Sent.append(Sentence(nominals[i], sent2[i].split(),
+        Sent.append(Sentence(nominals[i], sent2[i],
                              words_between_nominals[i],
                              pos_nominals[i], pos_sent[i], stem_words[i],
                              class_labels[i]))
