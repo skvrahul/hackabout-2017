@@ -127,7 +127,7 @@ def readData():
                              class_labels[i]))
 
     # Pickles file.
-    pickle.dump(sent, open('data/cleaned.pkl', 'wb'), protocol=2)
+    pickle.dump(Sent, open('data/cleaned.pkl', 'wb'), protocol=2)
 
 #accepts a sentence, returns a dictionary with 1 as value for the words encountered in training data
 def markWords(sent):
