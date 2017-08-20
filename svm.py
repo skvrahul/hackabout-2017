@@ -15,7 +15,7 @@ Sent = pickle.load(open("data/cleaned.pkl", "rb"))
 # print(Sent[0].create_feature_dict())
 
 # Target
-Y = np.empty((0, 100))
+
 
 # Features
 
@@ -25,7 +25,6 @@ vectorizer = CountVectorizer()
 corpus = []
 pos_corpus = []
 for s in Sent:
-    np.append()
     corpus.append(s.sentence)
     pos_corpus.append(" ".join(str(x) for x in s.pos_words))
 
@@ -35,13 +34,20 @@ vec_sentences = sentences.toarray()  # Vectors of all the sentences in the corpu
 pos_words = vectorizer.fit_transform(pos_corpus)
 vec_pos_words = pos_words.toarray()  # Vectors of all pos tags in corpus
 
+X = np.empty([8000,2],dtype = object)
+Y = np.empty(8000)
+i = 0
+for s in Sent:
+	Y[i] = s.label
+	X[i][0]=vec_sentences[i]
+	X[i][1]=vec_pos_words[i]
+	i=i+1
+print(X[0])
 
-'''
-clf = SVC(kernel='linear', C=1.5)
-cv = ShuffleSplit(n_splits=5, test_size=0.5, random_state=0)
-scores = cross_val_score(clf, X, Y, cv=cv)
-print(scores)
-'''
+# clf = SVC(kernel='linear', C=1.5)
+# cv = ShuffleSplit(n_splits=5, test_size=0.5, random_state=0)
+# scores = cross_val_score(clf, X, Y, cv=cv)
+# print(scores)
 
 clf = SVC()
 clf.fit(X, Y)
