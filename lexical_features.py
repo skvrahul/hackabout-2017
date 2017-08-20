@@ -60,7 +60,7 @@ def readData():
 
     # Reads the file off training data
     file = open("data/TRAIN_FILE.TXT", "r")
-    data = file.readlines()
+    data = file.readlines()[:2]
 
     # Loop for extracting relations and storing in labels[]
     for i in range(1, len(data), 4):
@@ -109,7 +109,7 @@ def readData():
 
     # Populates sent2 with the 'cleaned up' sentence
     for sent in sentences:
-        sent2.append(re.search(r'(\"(.*?)\")', sent).group(2))
+        sent2.append(re.sub(r'<.*?>','',re.search(r'(\"(.*?)\")', sent).group(2)))
 
     for sent in sent2:
         pos_sent.append([i[1] for i in pos_tag(word_tokenize(sent))])
