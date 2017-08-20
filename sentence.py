@@ -45,4 +45,4 @@ class Sentence:
 			feature_dict.update({'nom_pos:'+pos_nominal for pos_nominal in pos_nominals})
 			feature_dict.update({'words_pos:'+pos_word for pos_word in pos_words})
 			feature_dict.update({'words_stem:'+stem_word for stem_word in stem_words})
-			return 
+			return feature_dict
