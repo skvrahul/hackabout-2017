@@ -24,9 +24,15 @@ Sent = pickle.load(open("data/cleaned.pkl", "rb"))
 vectorizer = CountVectorizer()
 corpus = []
 pos_corpus = []
+number_of_words = []
 for s in Sent:
     corpus.append(s.sentence)
     pos_corpus.append(" ".join(str(x) for x in s.pos_words))
+    number_of_words.append(s.nominal_distance)
+no_of_words = []
+no_of_words.append(number_of_words)
+
+n_o_w = np.transpose(np.asarray(no_of_words))
 
 sentences = vectorizer.fit_transform(corpus)
 vec_sentences = sentences.toarray()  # Vectors of all the sentences in the corpus
@@ -39,7 +45,9 @@ Y = np.empty(8000)
 i = 0
 print(np.shape(vec_sentences))
 print(np.shape(vec_pos_words))
+print(np.shape(n_o_w))
 X = np.append(vec_sentences, vec_pos_words, axis=1)
+X = np.append(X, n_o_w, axis=1)
 for i, s in enumerate(Sent):
     Y[i] = s.label
 print(X.shape)
@@ -56,9 +64,9 @@ print('IsFinite:', np.isfinite(Y).all())
 print('isnull:', np.isnan(Y).any().any())
 # clf = SVC(verbose=True)
 # clf.fit(X, Y)
-
-hypernyms = []
 '''
+hypernyms = []
+
 for s in Sent[:3]:
     hypernyms.append(lowest_common_hypernym([(s.get_nominals()[1],
                                               s.pos_nominals[1]),
