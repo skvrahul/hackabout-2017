@@ -62,7 +62,7 @@ def readData():
     pos_between_nominals = []
 
     # Reads the file off training data
-    file = open("data/TRAIN_FILE.TXT", "r")
+    file = open("data/TEST_FILE_FULL.TXT", "r")
     data = file.readlines()
 
     # Loop for extracting relations and storing in labels[]
@@ -130,7 +130,7 @@ def readData():
 
     print(class_labels[8], labels[8])
     # Pickles file.
-    pickle.dump(Sent, open('data/cleaned.pkl', 'wb'), protocol=2)
+    pickle.dump(Sent, open('data/cleaned_test_full.pkl', 'wb'), protocol=2)
 
 
 readData()
