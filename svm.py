@@ -9,7 +9,7 @@ from nominal_features import *
 from sklearn.feature_extraction import DictVectorizer
 from sentence import *
 from sklearn.feature_extraction.text import CountVectorizer
-
+FEATURE_LEN = 1800
 
 Sent = pickle.load(open("data/cleaned.pkl", "rb"))
 # print(Sent[0].create_feature_dict())
@@ -44,16 +44,18 @@ for i, s in enumerate(Sent):
     Y[i] = s.label
 print(X.shape)
 print(Y.shape)
-# print(X[0])
 
-#clf = SVC(kernel='linear', C=1.5)
-#cv = ShuffleSplit(n_splits=5, test_size=0.5, random_state=0)
-#scores = cross_val_score(clf, X, Y, cv=cv)
-# print(scores)
+X = X[:FEATURE_LEN]
+Y = Y[:FEATURE_LEN]
+
+clf = SVC(kernel='linear', C=1.5, verbose=True)
+cv = ShuffleSplit(n_splits=5, test_size=0.5, random_state=0)
+scores = cross_val_score(clf, X, Y, cv=cv)
+print(scores)
 print('IsFinite:', np.isfinite(Y).all())
 print('isnull:', np.isnan(Y).any().any())
-clf = SVC(verbose=True)
-clf.fit(X, Y)
+# clf = SVC(verbose=True)
+# clf.fit(X, Y)
 
 hypernyms = []
 '''
