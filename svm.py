@@ -34,27 +34,34 @@ vec_sentences = sentences.toarray()  # Vectors of all the sentences in the corpu
 pos_words = vectorizer.fit_transform(pos_corpus)
 vec_pos_words = pos_words.toarray()  # Vectors of all pos tags in corpus
 
-X = np.empty([8000,2],dtype = object)
+X = None
 Y = np.empty(8000)
 i = 0
-for s in Sent:
-	Y[i] = s.label
-	X[i][0]=vec_sentences[i]
-	X[i][1]=vec_pos_words[i]
-	i=i+1
-print(X[0])
+print(np.shape(vec_sentences))
+print(np.shape(vec_pos_words))
+X = np.append(vec_sentences, vec_pos_words, axis=1)
+for i, s in enumerate(Sent):
+    Y[i] = s.label
+print(X.shape)
+print(Y.shape)
+# print(X[0])
 
-# clf = SVC(kernel='linear', C=1.5)
-# cv = ShuffleSplit(n_splits=5, test_size=0.5, random_state=0)
-# scores = cross_val_score(clf, X, Y, cv=cv)
+#clf = SVC(kernel='linear', C=1.5)
+#cv = ShuffleSplit(n_splits=5, test_size=0.5, random_state=0)
+#scores = cross_val_score(clf, X, Y, cv=cv)
 # print(scores)
-
-clf = SVC()
+print('IsFinite:', np.isfinite(Y).all())
+print('isnull:', np.isnan(Y).any().any())
+clf = SVC(verbose=True)
 clf.fit(X, Y)
 
-
-print(lowest_common_hypernym([(Sent[1].get_nominals()[1],
-                               Sent[1].pos_nominals[1]),
-                              (Sent[1].get_nominals()[1],
-                               Sent[1].pos_nominals[1])]))
+hypernyms = []
+'''
+for s in Sent[:3]:
+    hypernyms.append(lowest_common_hypernym([(s.get_nominals()[1],
+                                              s.pos_nominals[1]),
+                                             (s.get_nominals()[1],
+                                              s.pos_nominals[1])]))
 print(Sent[1].get_nominals()[1], Sent[1].pos_nominals[1])
+print(hypernyms[:10])
+'''

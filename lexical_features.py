@@ -37,7 +37,7 @@ def getClass(label):
         return 6
     elif label == 'Message-Topic':
         return 7
-    elif label == 'Contnen-Container':
+    elif label == 'Content-Container':
         return 8
     elif label == 'Instrument-Agency':
         return 9
@@ -57,8 +57,9 @@ def readData():
     sentences = []  # Holds all the sentences from the text files, but the sentences are not cleaned
     sent2 = []  # Sent2 holds all the cleaned sentences in double quotes
     Sent = []  # An array of Sentence objects, from sentency.py
-    indices = [] 
-    pos_between_nominals = [] #Stores string of starting POS tags of words between nominals
+    indices = []
+    # Stores string of starting POS tags of words between nominals
+    pos_between_nominals = []
 
     # Reads the file off training data
     file = open("data/TRAIN_FILE.TXT", "r")
@@ -91,7 +92,8 @@ def readData():
         nominals.append((e1, e2))
         e1_toks = word_tokenize(e1)
         e2_toks = word_tokenize(e2)
-        pos_between_nominals.append(''.join([i[1][0] for i in pos_tag(word_tokenize(between_nominals))]))
+        pos_between_nominals.append(
+            ''.join([i[1][0] for i in pos_tag(word_tokenize(between_nominals))]))
         pos_nominals.append((pos_tag(e1_toks)[0][1], pos_tag(e2_toks)[0][1]))
         nominal_words_toks = word_tokenize(nominal_words)
         pos_words.append(([i[1] for i in pos_tag(nominal_words_toks)]))
@@ -113,7 +115,8 @@ def readData():
 
     # Populates sent2 with the 'cleaned up' sentence
     for sent in sentences:
-        sent2.append(re.sub(r'<.*?>','',re.search(r'(\"(.*?)\")', sent).group(2)))
+        sent2.append(
+            re.sub(r'<.*?>', '', re.search(r'(\"(.*?)\")', sent).group(2)))
 
     for sent in sent2:
         pos_sent.append([i[1] for i in pos_tag(word_tokenize(sent))])
@@ -123,8 +126,9 @@ def readData():
         Sent.append(Sentence(nominals[i], sent2[i],
                              words_between_nominals[i],
                              pos_nominals[i], pos_sent[i], stem_words[i],
-                             class_labels[i],pos_between_nominals[i]))
+                             class_labels[i], pos_between_nominals[i]))
 
+    print(class_labels[8], labels[8])
     # Pickles file.
     pickle.dump(Sent, open('data/cleaned.pkl', 'wb'), protocol=2)
 
