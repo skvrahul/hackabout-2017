@@ -27,6 +27,17 @@ class Sentence:
 		self.pos_between_nominals = pos_between_nominals
 		# self.index_e1 = indices[0]
 		# self.index_e2 = indices[1]
+
+	def __init__(self, nominals, sentence, nominal_distance, pos_nominals, pos_words, stem_words, pos_between_nominals):
+		self.e1=nominals[0]
+		self.e2=nominals[1]
+		self.sentence = sentence
+		self.nominal_distance = nominal_distance
+		self.pos_nominals = pos_nominals
+		self.pos_words = pos_words
+		self.stem_words = stem_words
+		self.pos_between_nominals = pos_between_nominals
+
 	
 	def get_nominals(self):
 		return (self.e1,self.e2)
