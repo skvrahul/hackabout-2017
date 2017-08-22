@@ -15,7 +15,7 @@ class Sentence:
 	Returns:
 	    Returns a Sentence obj
 	"""
-	def __init__(self, nominals, sentence, nominal_distance, pos_nominals, pos_words, stem_words, label, pos_between_nominals):
+	def __init__(self, nominals, sentence, nominal_distance, pos_nominals, pos_words, stem_words, label, pos_between_nominals,vector_avg):
 		self.e1=nominals[0]
 		self.e2=nominals[1]
 		self.sentence = sentence
@@ -25,6 +25,7 @@ class Sentence:
 		self.stem_words = stem_words
 		self.label = label
 		self.pos_between_nominals = pos_between_nominals
+		self.vector_avg = vector_avg
 		# self.index_e1 = indices[0]
 		# self.index_e2 = indices[1]
 
