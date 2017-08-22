@@ -9,7 +9,8 @@ from nominal_features import *
 from sklearn.feature_extraction import DictVectorizer
 from sentence import *
 from sklearn.feature_extraction.text import CountVectorizer
-FEATURE_LEN = 1000
+from sklearn.externals import joblib
+FEATURE_LEN = 8000
 
 Sent = pickle.load(open("data/cleaned.pkl", "rb"))
 SentTest = pickle.load(open("data/cleaned_test_full.pkl","rb"))
@@ -115,13 +116,12 @@ print(scores)
 print('IsFinite:', np.isfinite(Y).all())
 print('isnull:', np.isnan(Y).any().any())
 '''
-Cs = [600]
-for c in Cs:
-	clf = SVC(C=c)
-	clf.fit(X, Y)
+clf = SVC(C=5000)
+clf.fit(X, Y)
 
-	Y_pred = clf.predict(X_test)
-	print(str(accuracy_score(Y_test, Y_pred))+" -> "+str(c))
+Y_pred = clf.predict(X_test)
+print(str(accuracy_score(Y_test, Y_pred))+" -> "+str(c))
+_ = joblib.dump(clf,"data/sem_eval_classifier.joblib.pkl",compress=9)
 '''
 hypernyms = []
 
