@@ -31,11 +31,14 @@ pos_corpus_test = []
 number_of_words_test = []
 word2vec = []
 word2vec_test = []
+words_vec = []
+words_vec_test = []
 for s in Sent:
     corpus.append(s.sentence)
     pos_corpus.append(" ".join(str(x) for x in s.pos_words))
     number_of_words.append(s.nominal_distance)
     word2vec.append(s.vector_avg)
+    words_vec.append(s.vector_avg_words)
 
 no_of_words = []
 no_of_words.append(number_of_words)
@@ -48,6 +51,7 @@ for s in SentTest:
     pos_corpus_test.append(" ".join(str(x) for x in s.pos_words))
     number_of_words_test.append(s.nominal_distance)
     word2vec_test.append(s.vector_avg)
+    words_vec_test.append(s.vector_avg_words)
 no_of_words_test = []
 no_of_words_test.append(number_of_words_test)
 
@@ -81,10 +85,12 @@ print(np.shape(n_o_w_test))
 X = np.append(vec_sentences, vec_pos_words, axis=1)
 X = np.append(X, n_o_w, axis=1)
 X = np.append(X, word2vec, axis=1)
+X = np.append(X, words_vec, axis=1)
 
 X_test = np.append(vec_sentences_test, vec_pos_words_test, axis=1)
 X_test = np.append(X_test, n_o_w_test, axis=1)
 X_test = np.append(X_test, word2vec_test, axis=1)
+X_test = np.append(X_test, words_vec_test, axis=1)
 for i, s in enumerate(SentTest):
     Y_test[i] = s.label
 
