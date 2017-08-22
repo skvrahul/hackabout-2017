@@ -5,6 +5,7 @@ import re
 from sentence import *  # For the Sentence object
 import _pickle as pickle
 import numpy as np
+import spacy
 
 """ Returns an integer from 0-9 for the various classes
                Other : 0
@@ -18,7 +19,7 @@ import numpy as np
    Content-Container : 8
    Instrument-Agency : 9
 """
-
+nlp = spacy.load('en')
 
 def getClass(label):
     if label == 'Other':
@@ -57,12 +58,13 @@ def readData():
     sentences = []  # Holds all the sentences from the text files, but the sentences are not cleaned
     sent2 = []  # Sent2 holds all the cleaned sentences in double quotes
     Sent = []  # An array of Sentence objects, from sentency.py
+    vector_avg = [] #Stores average of the word vectors
     indices = []
     # Stores string of starting POS tags of words between nominals
     pos_between_nominals = []
 
     # Reads the file off training data
-    file = open("data/TEST_FILE_FULL.TXT", "r")
+    file = open("data/TRAIN_FILE.TXT", "r")
     data = file.readlines()
 
     # Loop for extracting relations and storing in labels[]
@@ -103,6 +105,8 @@ def readData():
         b = sent[:sent.rfind('>')].count(' ')
         indices.append((a, b))
         prefixes = []
+        doc = nlp(e1+" "+e2)
+        vector_avg.append(doc.vector)
 
         for i in range(1, len(words) - 1):
             prefixes.append(words[i][:5])
@@ -126,11 +130,11 @@ def readData():
         Sent.append(Sentence(nominals[i], sent2[i],
                              words_between_nominals[i],
                              pos_nominals[i], pos_sent[i], stem_words[i],
-                             class_labels[i], pos_between_nominals[i]))
+                             class_labels[i], pos_between_nominals[i],vector_avg[i]))
 
     print(class_labels[8], labels[8])
     # Pickles file.
-    pickle.dump(Sent, open('data/cleaned_test_full.pkl', 'wb'), protocol=2)
+    pickle.dump(Sent, open('data/cleaned.pkl', 'wb'), protocol=2)
 
 
 readData()
