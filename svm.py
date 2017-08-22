@@ -116,7 +116,7 @@ print(scores)
 print('IsFinite:', np.isfinite(Y).all())
 print('isnull:', np.isnan(Y).any().any())
 '''
-clf = SVC(C=15000)
+clf = SVC(C=5000)
 clf.fit(X, Y)
 
 Y_pred = clf.predict(X_test)
