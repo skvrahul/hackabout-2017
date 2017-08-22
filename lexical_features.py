@@ -59,6 +59,7 @@ def readData():
     sent2 = []  # Sent2 holds all the cleaned sentences in double quotes
     Sent = []  # An array of Sentence objects, from sentency.py
     vector_avg = [] #Stores average of the word vectors
+    vector_avg_words = [] #Stores average of vectors of words between nominals
     indices = []
     # Stores string of starting POS tags of words between nominals
     pos_between_nominals = []
@@ -107,6 +108,8 @@ def readData():
         prefixes = []
         doc = nlp(e1+" "+e2)
         vector_avg.append(doc.vector)
+        doc_words = nlp(nominal_words)
+        vector_avg_words.append(doc_words.vector)
 
         for i in range(1, len(words) - 1):
             prefixes.append(words[i][:5])
@@ -130,7 +133,7 @@ def readData():
         Sent.append(Sentence(nominals[i], sent2[i],
                              words_between_nominals[i],
                              pos_nominals[i], pos_sent[i], stem_words[i],
-                             class_labels[i], pos_between_nominals[i],vector_avg[i]))
+                             class_labels[i], pos_between_nominals[i],vector_avg[i],vector_avg_words[i]))
 
     print(class_labels[8], labels[8])
     # Pickles file.

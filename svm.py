@@ -29,10 +29,14 @@ number_of_words = []
 corpus_test = []
 pos_corpus_test = []
 number_of_words_test = []
+word2vec = []
+word2vec_test = []
 for s in Sent:
     corpus.append(s.sentence)
     pos_corpus.append(" ".join(str(x) for x in s.pos_words))
     number_of_words.append(s.nominal_distance)
+    word2vec.append(s.vector_avg)
+
 no_of_words = []
 no_of_words.append(number_of_words)
 
@@ -43,6 +47,7 @@ for s in SentTest:
     corpus_test.append(s.sentence)
     pos_corpus_test.append(" ".join(str(x) for x in s.pos_words))
     number_of_words_test.append(s.nominal_distance)
+    word2vec_test.append(s.vector_avg)
 no_of_words_test = []
 no_of_words_test.append(number_of_words_test)
 
@@ -75,9 +80,11 @@ print(np.shape(n_o_w_test))
 
 X = np.append(vec_sentences, vec_pos_words, axis=1)
 X = np.append(X, n_o_w, axis=1)
+X = np.append(X, word2vec, axis=1)
 
 X_test = np.append(vec_sentences_test, vec_pos_words_test, axis=1)
 X_test = np.append(X_test, n_o_w_test, axis=1)
+X_test = np.append(X_test, word2vec_test, axis=1)
 for i, s in enumerate(SentTest):
     Y_test[i] = s.label
 
@@ -102,7 +109,7 @@ print(scores)
 print('IsFinite:', np.isfinite(Y).all())
 print('isnull:', np.isnan(Y).any().any())
 '''
-Cs = [150, 170, 190]
+Cs = [600]
 for c in Cs:
 	clf = SVC(C=c)
 	clf.fit(X, Y)
