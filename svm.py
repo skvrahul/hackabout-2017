@@ -116,12 +116,26 @@ print(scores)
 print('IsFinite:', np.isfinite(Y).all())
 print('isnull:', np.isnan(Y).any().any())
 '''
-clf = SVC(C=5000)
+clf = SVC(C=15000)
 clf.fit(X, Y)
 
 Y_pred = clf.predict(X_test)
-print(str(accuracy_score(Y_test, Y_pred))+" -> "+str(c))
+print(str(accuracy_score(Y_test, Y_pred))+" -> "+str(5000))
+
+#transferring output to file
+labels = ['Other','Cause-Effect','Component-Whole','Entity-Destination','Product-Producer','Entity-Origin','Member-Collection','Message-Topic','Instrument-Agency','Content-Container']
+file = open('output.txt','w')
+i = 8001
+Y_pred = Y_pred.astype(np.int64)
+print(Y_pred)
+for num in Y_pred:
+	file.write(str(i)+"\t"+str(labels[num])+"\n")
+	i=i+1
+file.close()
+
+
 _ = joblib.dump(clf,"data/sem_eval_classifier.joblib.pkl",compress=9)
+
 '''
 hypernyms = []
 
